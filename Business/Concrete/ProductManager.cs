@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Castle.Core.Logging;
@@ -28,7 +29,8 @@ namespace Business.Concrete
             _categoryService = categoryService;
 
         }
-
+        //Claim
+        [SecuredOperation("product.add")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
@@ -47,7 +49,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetAll()
         {
-            if (DateTime.Now.Hour == 1)
+            if (DateTime.Now.Hour == 24)
             {
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
