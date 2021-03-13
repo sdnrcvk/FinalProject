@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
         //Loosely coupled
         //naming conventian
         //IoC Container--Inversion of Control
-        IProductService _productService;
+        private IProductService _productService;
 
         public ProductsController(IProductService productService)
         {
@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
             //Swagger
             //Dependency chain--
 
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
 
             var result=_productService.GetAll();
             if (result.Success)
@@ -53,6 +53,18 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("getbycategory")]
+        public IActionResult GetByCategory(int categoryId)
+        {
+            var result = _productService.GetAllByCategoryId(categoryId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
 
         [HttpPost("add")]
         public IActionResult Add(Product product)
